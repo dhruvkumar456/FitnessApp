@@ -7,10 +7,18 @@ const informationschema=new mongoose.Schema({
         required:true,
         trim:true
     },
-    weight:{
-        type:Number,
-        required:true,
-    },
+    weight_record:[{
+        weight:{
+            type:Number,
+            required:true,
+            created_at:true
+        },
+        created_at:{
+            type:Date,
+            required:true,
+            default:Date.now
+        }
+    }],
     gender:{
         type:Boolean,
         required:true
@@ -23,5 +31,5 @@ const informationschema=new mongoose.Schema({
 })
 
 
-const Task=new mongoose.model('Task',informationschema)
-module.exports=Task
+const Information=new mongoose.model('Information',informationschema)
+module.exports=Information

@@ -46,6 +46,12 @@ const userschema=mongoose.Schema({
 
 })
 
+userschema.virtual('info',{
+    ref:'Information',
+    localField:'_id',
+    foreignField:'user'
+})
+
 userschema.pre('save',async function(next){
     const user=this
     if(user.isModified('password')){
