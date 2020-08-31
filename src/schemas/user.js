@@ -52,6 +52,13 @@ userschema.virtual('info',{
     foreignField:'user'
 })
 
+
+userschema.virtual('lib',{
+    ref:'Library',
+    localField:'_id',
+    foreignField:'user'
+})
+
 userschema.pre('save',async function(next){
     const user=this
     if(user.isModified('password')){
