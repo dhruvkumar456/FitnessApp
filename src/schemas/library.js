@@ -25,7 +25,8 @@ const libraryScheme=new mongoose.Schema({
     }],
     user:{
         type:mongoose.Schema.Types.ObjectId,
-        require:true
+        require:true,
+        ref:'User'
     }
 })
 

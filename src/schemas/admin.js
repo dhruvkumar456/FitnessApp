@@ -19,5 +19,5 @@ const adminschema=mongoose.Schema({
     }
 })
 
-const Admin=mongoose.model('Admin',libraryschema)
+const Admin=mongoose.model('Admin',adminschema)
 module.exports=Admin
