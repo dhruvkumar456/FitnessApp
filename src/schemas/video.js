@@ -1,8 +1,8 @@
-const mongoose=require('mongoose')
-
-const adminschema=mongoose.Schema({
+require('../db/mongoose')
+const mongoose =require('mongoose')
+const videoschema=new mongoose.Schema({
     videono:{
-        type:String,
+        type:Number,
         required:true
     },
     calorie:{
@@ -19,5 +19,5 @@ const adminschema=mongoose.Schema({
     }
 })
 
-const Admin=mongoose.model('Admin',adminschema)
-module.exports=Admin
+const Video=mongoose.model('video',videoschema,'video')
+module.exports=Video

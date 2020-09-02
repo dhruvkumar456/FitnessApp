@@ -4,21 +4,21 @@ const mongoose=require('mongoose')
 const libraryScheme=new mongoose.Schema({
     recents:[{
         recent:{
-            type:String,
+            type:Number,
             trim:true,
             unique:true
         }
     }],
     watchLaters:[{
         watchLater:{
-            type:String,
+            type:Number,
             trim:true,
             unique:true
         }
     }],
     liked:[{
         like:{
-            type:String,
+            type:Number,
             trim:true,
             unique:true
         }

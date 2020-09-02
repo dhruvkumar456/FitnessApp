@@ -3,6 +3,7 @@ const router=express.Router()
 
 const Library=require('../schemas/library')
 const auth=require('../authentication/auth')
+const Video=require('../schemas/video')
 
 const initLibrary=(_id)=>{
     const lib=new Library({
@@ -13,10 +14,13 @@ const initLibrary=(_id)=>{
 
 router.post('/library/recent',auth,async (req,res)=>{
     try{
-        const vediono=req.query.vediono
+        const videono=req.query.videono
+        
         await req.user.populate('lib').execPopulate()
+        console.log(req.user.lib[0]._id)
         const lib=await Library.findById({_id:req.user.lib[0]._id})
-        lib.recents=lib.recents.concat({recent:vediono})
+        lib.recents=lib.recents.concat({recent:videono})
+       
         await lib.save()
         res.send(lib)
     }catch(e){
@@ -27,10 +31,10 @@ router.post('/library/recent',auth,async (req,res)=>{
 
 router.post('/library/like',auth,async (req,res)=>{
     try{
-        const vediono=req.query.vediono
+        const videono=req.query.videono
         await req.user.populate('lib').execPopulate()
         const lib=await Library.findById({_id:req.user.lib[0]._id})
-        lib.liked=lib.liked.concat({like:vediono})
+        lib.liked=lib.liked.concat({like:videono})
         await lib.save()
         res.send(lib)
     }catch(e){
@@ -41,10 +45,10 @@ router.post('/library/like',auth,async (req,res)=>{
 
 router.post('/library/watchlater',auth,async (req,res)=>{
     try{
-        const vediono=req.query.vediono
+        const videono=req.query.videono
         await req.user.populate('lib').execPopulate()
         const lib=await Library.findById({_id:req.user.lib[0]._id})
-        lib.watchLaters=lib.watchLaters.concat({watchLater:vediono})
+        lib.watchLaters=lib.watchLaters.concat({watchLater:videono})
         await lib.save()
         res.send(lib)
     }catch(e){
@@ -80,6 +84,34 @@ router.get('/library/watchlater',auth,async (req,res)=>{
         res.send(req.user.lib[0].watchLaters)
     }catch(e){
         res.status(400).send(e)
+    }
+})
+
+router.post('/removeliked',auth,async(req,res)=>{
+    const videono=req.query.videono
+    try{
+        const lib=await Library.findOne({user:req.user._id})
+        lib.recents=lib.recents.filter(element => {
+            return element!=videono            
+        })
+        await lib.save()
+        res.send(lib.recents)
+    }catch(e){
+        res.status(500).send(e)
+    }
+})
+
+router.post('/removewatchlater',auth,async(req,res)=>{
+    const videono=req.query.videono
+    try{
+        const lib=await Library.findOne({user:req.user._id})
+        lib.watchLaters=lib.watchLaters.filter(element => {
+            return element.watchLater!=videono            
+        })
+        await lib.save()
+        res.send(lib.watchLaters)
+    }catch(e){
+        res.status(500).send(e)
     }
 })
 
