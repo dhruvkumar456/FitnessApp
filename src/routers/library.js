@@ -17,10 +17,8 @@ router.post('/library/recent',auth,async (req,res)=>{
         const videono=req.query.videono
         
         await req.user.populate('lib').execPopulate()
-        console.log(req.user.lib[0]._id)
         const lib=await Library.findById({_id:req.user.lib[0]._id})
         lib.recents=lib.recents.concat({recent:videono})
-       
         await lib.save()
         res.send(lib)
     }catch(e){
@@ -35,6 +33,11 @@ router.post('/library/like',auth,async (req,res)=>{
         await req.user.populate('lib').execPopulate()
         const lib=await Library.findById({_id:req.user.lib[0]._id})
         lib.liked=lib.liked.concat({like:videono})
+
+        const video=await Video.findOne({videono})
+        video.likes=video.likes+1
+        await video.save()
+        
         await lib.save()
         res.send(lib)
     }catch(e){

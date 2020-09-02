@@ -2,7 +2,7 @@ require('../db/mongoose')
 const mongoose =require('mongoose')
 const videoschema=new mongoose.Schema({
     videono:{
-        type:Number,
+        type:String,
         required:true
     },
     calorie:{
